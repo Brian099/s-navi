@@ -1,0 +1,760 @@
+:root{
+  --bg1:#2a0b4f;
+  --bg2:#5b0b4f;
+  --card-bg: rgba(255,255,255,0.06);
+  --accent: #ffffff;
+  --muted: rgba(255,255,255,0.6);
+}
+*{box-sizing:border-box}
+html,body{
+  height:100%;
+  margin:0;
+  font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  color:var(--accent);
+  /* 动态渐变背景 */
+  background: linear-gradient(-45deg, #6b1db5, #000000, #9f054e, #8a2be2);
+  background-size: 200% 200%;
+  animation: gradientBG 15s ease infinite;
+  overflow:auto;
+  -webkit-tap-highlight-color: transparent; /* 移除移动端点击高亮 */
+}
+
+/* 渐变背景动画 */
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bg{position:fixed;inset:0;filter:blur(40px);opacity:0.4;pointer-events:none}
+
+a{text-decoration: none; color: white;}
+
+/* 右上角单独一排的模式切换（v6/v4/局域网） */
+.mode-top-right{
+  position:fixed;
+  top:36px;
+  right:36px;
+  display:flex;
+  gap:8px;
+  z-index:50;
+}
+.mode-top-right .mode-btn{
+  background:rgba(255,255,255,0.08);
+  border:0;
+  color:var(--accent);
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+/* 中间单独一行的 hero（服务器名称 + 两行时间/日期） */
+.hero-row{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:80px 20px 10px 20px;
+  margin-top:18px;
+}
+.hero{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  justify-content:center;
+  width:100%;
+  max-width:1200px;
+  padding:8px 20px;
+}
+#server-name{
+  font-size:3.75rem;
+  margin:0;
+  letter-spacing:1px;
+  font-weight:800;
+  text-shadow: 2px 2px 50px rgb(0,0,0);
+  word-break: break-word; /* 防止长文本溢出 */
+}
+
+/* 新增：时钟两行 */
+.clock-box{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  min-width:140px;
+  color:var(--muted);
+  text-shadow: 2px 2px 50px rgb(0,0,0);
+}
+.clock-box .time{
+  font-size:2.25rem;
+  font-weight:700;
+  color:var(--accent);
+  line-height:1;
+}
+.clock-box .date{
+  font-size:1rem;
+  color:var(--muted);
+  margin-top:6px;
+  line-height:1;
+}
+
+/* 主体 */
+.container{
+  max-width:1200px;
+  margin:100px auto;
+  padding:0 28px;
+}
+.apps h2{
+  color:var(--accent);
+  margin:100px 0 20px 0;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:18px;
+}
+
+/* 卡片布局 - 图标始终在左侧，文字左对齐 */
+.card{
+  display:flex;
+  align-items:flex-start; /* 顶部对齐 */
+  background:var(--card-bg);
+  padding:14px;
+  border-radius:14px;
+  cursor:pointer;
+  backdrop-filter: blur(6px);
+  transition:transform .12s;
+  -webkit-backdrop-filter: blur(6px); /* Safari支持 */
+  text-align: left; /* 确保文字左对齐 */
+}
+.card:hover{
+  transform:translateY(-6px);
+}
+.icon{
+  width:56px;
+  height:56px;
+  object-fit:cover;
+  border-radius:50%;
+  background:#fff;
+  flex-shrink: 0; /* 防止图标被压缩 */
+  margin-right: 14px; /* 图标和文字的间距 */
+  padding: 2px;
+}
+.meta{
+  flex:1;
+  min-width: 0; /* 防止文本溢出 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left; /* 文字左对齐 */
+  height:56px;
+}
+.meta .title{
+  font-weight:700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 6px;
+  text-align: left;
+}
+.meta .desc{
+  color:var(--muted);
+  font-size:12px;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 最多显示两行 */
+  -webkit-box-orient: vertical;
+  text-align: left;
+}
+.foot{
+  text-align:center;
+  padding:40px;
+  color:rgba(255,255,255,0.6);
+}
+
+/* admin */
+.admin-top{
+  background:transparent;
+  padding:18px 60px;
+  text-align:center;
+}
+.container.admin{
+  max-width:1400px;
+}
+.admin-table{
+  width:100%;
+  border-collapse:collapse;
+  color:var(--accent);
+  margin-bottom:20px;
+  background: var(--card-bg);
+  border-radius: 6px;
+  overflow: hidden; /* 确保圆角生效 */
+}
+.admin-table th, .admin-table td{
+  padding:10px;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  text-align:left;
+}
+.thumb{
+  width:48px;
+  height:48px;
+  object-fit:cover;
+  border-radius:6px;
+}
+.admin-login{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+}
+.login-box{
+  background:rgba(255,255,255,0.15);
+  padding:28px;
+  border-radius:10px;
+  min-width: 360px;
+}
+.login-box input{
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+  border-radius:6px;
+  border:1px solid rgba(255,255,255,0.06);
+  background:transparent;
+  color:var(--accent);
+  font-size: 16px; /* 防止iOS缩放 */
+}
+.admin form input[type=file]{
+  color:var(--accent);
+}
+.admin form input, .admin form button{
+  padding:8px;
+  margin:6px 0;
+}
+.error{
+  color:#ffb3b3;
+}
+.muted{
+  color:var(--muted);
+  font-size:12px;
+}
+.mono{
+  font-size:12px;
+  color:var(--muted);
+}
+
+/* -----------------------------
+   后台额外样式（已合并）
+   ----------------------------- */
+
+/* 按钮全局调整 */
+button{
+  cursor: pointer;
+  touch-action: manipulation; /* 改善移动端触摸 */
+}
+#modal-reset, button.primary{
+  background: linear-gradient(90deg,#6b5ef0,#e86aa7);
+  color: #fff;
+  border: none;
+  padding: 10px 16px; /* 增大触摸区域 */
+  border-radius:8px;
+  box-shadow: 0 6px 14px rgba(107,94,240,0.18);
+  font-weight: 600;
+  min-height: 44px; /* 最小触摸尺寸 */
+}
+#save-order-btn{
+  background: rgba(255,255,255,0.06);
+  color: var(--accent);
+  border: none;
+  padding: 10px 16px;
+  border-radius:8px;
+  min-height: 44px;
+}
+
+/* 管理区域的动作栏 */
+.admin-actions{
+  max-width:1200px;
+  margin: 18px auto;
+  padding: 0 28px 10px 28px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+.admin-actions .muted{
+  margin:0;
+}
+
+.modal-overlay{
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1000;
+  padding: 20px;
+  
+  /* 过渡效果 */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+}
+.modal-overlay.show{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Modal 居中样式 */
+.modal{
+  width:100%;
+  max-width:960px;
+  background: linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,1));
+  border-radius:12px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  overflow:hidden;
+  transform: translateY(-6px);
+  animation: modal-in .18s ease forwards;
+}
+@keyframes modal-in{
+  to{
+    transform: translateY(0);
+  }
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 20px;
+  border-bottom:1px solid rgba(255,255,255,0.03);
+}
+.modal-header h3{
+  margin:0;
+  font-size:18px;
+  color:var(--bg1);
+  border-bottom: 1px solid;
+}
+.modal-close{
+  background:transparent;
+  border:0;
+  font-size:26px;
+  color:var(--bg1);
+  cursor:pointer;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.modal-body{
+  padding:18px 20px;
+  color:var(--bg1);
+  max-height:70vh;
+  overflow:auto;
+  -webkit-overflow-scrolling: touch; /* iOS滚动平滑 */
+}
+
+/* 表单 */
+.form-row{
+  margin-bottom:12px;
+}
+.form-row label{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  font-weight:600;
+  color:var(--bg1);
+}
+.form-row input{
+  padding: 12px; /* 增大触摸区域 */
+  border-radius:6px;
+  border: none;
+  background:aliceblue;
+  font-size: 16px;
+}
+.form-row input[type="text"],
+.form-row input[type="number"],
+.form-row input[type="url"],
+.form-row input[type="file"],
+.form-row input[type="password"]{
+  padding:12px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.06);
+  color:var(--bg1);
+}
+.form-actions{
+  display:flex;
+  gap:10px;
+  margin-top:8px;
+  align-items:center;
+  flex-direction: row-reverse;
+}
+
+/* 状态 badge */
+.status-badge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:12px;
+  font-weight:600;
+  font-size:13px;
+  cursor:pointer;
+  user-select:none;
+}
+.status-badge.enabled{
+  background: rgba(106, 199, 119, 0.15);
+  color: #8ff0a0;
+  border: 1px solid rgba(106,199,119,0.2);
+}
+.status-badge.disabled{
+  background: rgba(255, 99, 71, 0.06);
+  color: #ffb8a8;
+  border: 1px solid rgba(255,99,71,0.08);
+}
+
+/* 小提示样式 */
+.small{
+  font-size:12px;
+  color:var(--bg1);
+  margin-top:6px;
+}
+
+/* 拖拽提示 */
+tr[draggable="true"]{
+  cursor: move;
+}
+tr.drag-over{
+  outline: 2px dashed rgba(255,255,255,0.12);
+}
+
+/* ====================
+   移动端响应式优化
+   ==================== */
+
+/* 平板设备优化 - 3列 */
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  #server-name {
+    font-size: 2.5rem;
+  }
+  
+  .container {
+    max-width: 90%;
+  }
+  
+  .icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 12px;
+  }
+  
+  .meta {
+	  height: 50px;
+  }
+  
+  .card {
+    padding: 12px;
+  }
+}
+
+/* 移动端优化 - 2列（手机端一行两个） */
+@media screen and (max-width: 768px) {
+  /* 通用调整 */
+  body {
+    font-size: 14px;
+  }
+  
+  /* 模式切换按钮 */
+  .mode-top-right {
+    top: 12px;
+    right: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  
+  .mode-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+    min-height: 36px;
+  }
+  
+  /* Hero区域 */
+  .hero-row {
+    padding: 60px 12px 10px 12px;
+    margin-top: 0;
+  }
+  
+  .hero {
+    flex-direction: column;
+    gap: 12px;
+    padding: 6px 12px;
+    text-align: center;
+  }
+  
+  #server-name {
+    font-size: 2rem;
+    line-height: 1.2;
+    text-align: center;
+  }
+  
+  .clock-box {
+    min-width: 0;
+    align-items: center;
+    margin-top: 8px;
+  }
+  
+  .clock-box .time {
+    font-size: 1.75rem;
+  }
+  
+  .clock-box .date {
+    font-size: 0.9rem;
+  }
+  
+  /* 主容器 */
+  .container {
+    margin: 40px auto;
+    padding: 0 16px;
+  }
+  
+  .apps h2 {
+    margin: 60px 0 16px 0;
+    font-size: 1.5rem;
+  }
+  
+  /* 网格布局 - 手机端一行两个 */
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  
+  /* 卡片布局 - 保持图标在左侧，文字左对齐 */
+  .card {
+    padding: 12px;
+    flex-direction: row; /* 保持横向排列 */
+    text-align: left;
+    align-items: flex-start;
+  }
+  
+  .icon {
+    width: 48px;
+    height: 48px;
+    margin-right: 12px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+  
+  .meta {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+	height:48px;
+  }
+  
+  .meta .title {
+    font-size: 14px;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .meta .desc {
+    font-size: 11px;
+    line-height: 1.3;
+    -webkit-line-clamp: 2; /* 移动端显示两行 */
+  }
+  
+  /* 页脚 */
+  .foot {
+    padding: 30px 16px;
+    font-size: 12px;
+  }
+  
+  /* 后台管理 */
+  .admin-top {
+    padding: 12px 16px;
+  }
+  
+  .admin-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 0 16px 10px 16px;
+  }
+  
+  .admin-table {
+    font-size: 13px;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .admin-table th,
+  .admin-table td {
+    padding: 8px;
+    white-space: nowrap;
+  }
+  
+  /* 隐藏拖拽提示点 */
+  .dot {
+    display: none;
+  }
+  
+  /* 登录框 */
+  .login-box {
+    min-width: 90%;
+    max-width: 90%;
+    padding: 20px;
+    margin: 0 16px;
+  }
+  
+  /* 模态框 */
+  .modal-overlay {
+    padding: 10px;
+    align-items: flex-end; /* 底部弹出 */
+  }
+  
+  .modal {
+    max-width: 100%;
+    border-radius: 12px 12px 0 0;
+    max-height: 85vh;
+  }
+  
+  .modal-header {
+    padding: 14px 16px;
+  }
+  
+  .modal-body {
+    padding: 16px;
+    max-height: 60vh;
+  }
+  
+  /* 表单 */
+  .form-row {
+    margin-bottom: 16px;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .form-actions button {
+    width: 100%;
+  }
+}
+
+/* 小屏幕手机优化 - 保持2列 */
+@media screen and (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr); /* 仍然保持一行两个 */
+    gap: 10px;
+  }
+  
+  .card {
+    padding: 10px;
+  }
+  
+  .icon {
+    width: 42px;
+    height: 42px;
+    margin-right: 10px;
+  }
+  
+  .meta {
+	height:42px;
+  }
+  
+  .meta .title {
+    font-size: 13px;
+
+  }
+  
+  .meta .desc {
+    font-size: 10px;
+    -webkit-line-clamp: 2; /* 保持两行 */
+  }
+  
+  #server-name {
+    font-size: 1.75rem;
+  }
+  
+  .clock-box .time {
+    font-size: 1.5rem;
+  }
+  
+  .mode-top-right {
+
+  }
+  
+  .hero-row {
+    padding-top: 80px;
+  }
+}
+
+/* 防止横屏时字体过大 */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  .hero-row {
+    padding-top: 40px;
+  }
+  
+  #server-name {
+    font-size: 1.8rem;
+  }
+  
+  .modal-body {
+    max-height: 50vh;
+  }
+  
+  /* 横屏时可以考虑3列布局 */
+  @media screen and (min-height: 400px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+/* 大屏幕优化 - 保持5列 */
+@media screen and (min-width: 1201px) {
+  .grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* 中屏幕优化 - 4列 */
+@media screen and (max-width: 1200px) and (min-width: 1025px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 深色模式优化 */
+@media (prefers-color-scheme: dark) {
+  .modal {
+    background: linear-gradient(180deg, rgba(40,40,40,1), rgba(30,30,30,1));
+  }
+  
+  .modal-header h3,
+  .form-row label,
+  .small {
+    color: #f0f0f0;
+  }
+  
+  .form-row input {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+  }
+}
