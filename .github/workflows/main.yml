@@ -20,7 +20,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t mydockerhub/s-navi:latest .
+        run: docker build -t brian9909/s-navi:latest .
 
       - name: Push Docker image
-        run: docker push mydockerhub/s-navi:latest
+        run: docker push brian9909/s-navi:latest
