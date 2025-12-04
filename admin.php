@@ -168,7 +168,7 @@ usort($services, function($a,$b){
               <td><?=htmlspecialchars($s['id'])?></td>
               <td><img src="<?=htmlspecialchars($s['icon'] ?: 'assets/sample/icon-placeholder.png')?>" class="thumb" id="icon-<?=htmlspecialchars($s['id'])?>"></td>
               <td><?=htmlspecialchars($s['name'])?></td>
-              <td><?=htmlspecialchars($s['description'])?></td>
+              <td class="mono"><?=htmlspecialchars($s['description'])?></td>
               <td class="mono"><?=htmlspecialchars($s['link_v6'])?></td>
               <td class="mono"><?=htmlspecialchars($s['link_v4'])?></td>
               <td class="mono"><?=htmlspecialchars($s['link_lan'])?></td>
