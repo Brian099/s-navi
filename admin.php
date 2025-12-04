@@ -146,7 +146,7 @@ usort($services, function($a,$b){
         <button id="btn-new" class="primary">新增服务</button>
         <button id="save-order-btn">保存排序</button>
       </div>
-      <p class="muted">拖拽表格行改变排序，点击"保存排序"以写入 sort_order。点击 "新增服务" 或表格的 "编辑" 按钮打开模态框。点击状态可直接启用/禁用。</p>
+      <p class="muted">注：拖拽表格行改变排序,点击状态可切换启用/停用</p>
     </section>
 
     <section>
@@ -166,7 +166,7 @@ usort($services, function($a,$b){
           <?php foreach($services as $s): ?>
             <tr data-id="<?=htmlspecialchars($s['id'])?>" draggable="true">
               <td><?=htmlspecialchars($s['id'])?></td>
-              <td><img src="<?=htmlspecialchars($s['icon'] ?: 'assets/sample/icon-placeholder.png')?>" class="thumb"></td>
+              <td><img src="<?=htmlspecialchars($s['icon'] ?: 'assets/sample/icon-placeholder.png')?>" class="thumb" id="icon-<?=htmlspecialchars($s['id'])?>"></td>
               <td><?=htmlspecialchars($s['name'])?></td>
               <td><?=htmlspecialchars($s['description'])?></td>
               <td class="mono"><?=htmlspecialchars($s['link_v6'])?></td>
@@ -182,6 +182,9 @@ usort($services, function($a,$b){
               <td>
                 <button class="edit-btn" data-id="<?=htmlspecialchars($s['id'])?>">编辑</button>
                 <button class="del-btn" data-id="<?=htmlspecialchars($s['id'])?>">删除</button>
+                <!-- 新增：获取图标 / 上传图标 -->
+                <button class="fetch-icon-btn" data-id="<?=htmlspecialchars($s['id'])?>">获取图标</button>
+                <button class="upload-icon-btn" data-id="<?=htmlspecialchars($s['id'])?>">上传图标</button>
               </td>
             </tr>
           <?php endforeach; ?>
@@ -190,7 +193,7 @@ usort($services, function($a,$b){
     </section>
   </main>
 
-  <!-- Modal overlay & modal -->
+  <!-- Modal overlay & modal（overlay 默认隐藏，通过 .show 控制显示） -->
   <div id="modal-overlay" class="modal-overlay" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <header class="modal-header">
@@ -203,9 +206,7 @@ usort($services, function($a,$b){
           <div class="form-row"><label>名称 <input name="name" required></label></div>
           <div class="form-row"><label>描述 <input name="description"></label></div>
 
-          <div class="form-row">
-            <label>图标文件 <input type="file" name="icon" accept="image/*"></label>
-          </div>
+          <!-- 注意：图标文件输入已移出弹窗（改为行内上传按钮） -->
 
           <div class="form-row"><label>v6 链接 <input name="link_v6"></label></div>
           <div class="form-row"><label>v4 链接 <input name="link_v4"></label></div>

@@ -4,6 +4,9 @@
   --card-bg: rgba(255,255,255,0.06);
   --accent: #ffffff;
   --muted: rgba(255,255,255,0.6);
+  --btn-primary-grad: linear-gradient(90deg,#6b5ef0,#e86aa7);
+  --btn-muted-bg: rgba(255,255,255,0.06);
+  --danger-bg: rgba(255,99,71,0.06);
 }
 *{box-sizing:border-box}
 html,body{
@@ -209,7 +212,90 @@ a{text-decoration: none; color: white;}
   height:48px;
   object-fit:cover;
   border-radius:6px;
+  /* 当行内图标更新时过渡更平滑 */
+  transition: opacity .15s ease, transform .15s ease;
 }
+
+/* 新增：行内操作按钮容器，方便按钮排列与换行 */
+.action-group{
+  display:inline-flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+/* 通用表格内按钮样式（编辑/删除/获取/上传） */
+.admin-table td button,
+.admin-table td .action-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--accent);
+  padding:6px 10px;
+  border-radius:8px;
+  font-weight:600;
+  font-size:13px;
+  min-height:36px;
+  cursor:pointer;
+  transition: transform .08s ease, box-shadow .08s ease, background .12s ease;
+}
+.admin-table td button:hover,
+.admin-table td .action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+}
+
+/* 编辑按钮主色 */
+.admin-table td button.edit-btn {
+  background: var(--btn-muted-bg);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+/* 删除按钮强调（橙/红色） */
+.admin-table td button.del-btn {
+  background: var(--danger-bg);
+  border: 1px solid rgba(255,99,71,0.12);
+  color: #ffb8a8;
+}
+
+/* 获取图标 和 上传图标 专用样式 */
+.admin-table td button.fetch-icon-btn {
+  background: linear-gradient(90deg,#34c3a1,#00a2ff);
+  border: none;
+  color: #fff;
+  padding:6px 10px;
+  min-height:36px;
+  box-shadow: 0 6px 14px rgba(0,162,255,0.12);
+}
+.admin-table td button.fetch-icon-btn:hover {
+  filter: brightness(1.04);
+  transform: translateY(-2px);
+}
+
+/* 上传图标偏中性（灰紫色） */
+.admin-table td button.upload-icon-btn {
+  background: linear-gradient(90deg,#8a7bff,#a07be8);
+  border: none;
+  color: #fff;
+  padding:6px 10px;
+  min-height:36px;
+  box-shadow: 0 6px 14px rgba(107,94,240,0.12);
+}
+.admin-table td button.upload-icon-btn:hover {
+  filter: brightness(1.04);
+  transform: translateY(-2px);
+}
+
+/* 小屏幕时按钮更紧凑 */
+@media screen and (max-width: 768px) {
+  .admin-table td button,
+  .admin-table td .action-btn {
+    padding:6px 8px;
+    font-size:12px;
+    min-height:34px;
+  }
+  .thumb{ width:40px; height:40px; }
+}
+
+/* 管理登录 */
 .admin-login{
   display:flex;
   align-items:center;
@@ -260,33 +346,24 @@ button{
   cursor: pointer;
   touch-action: manipulation; /* 改善移动端触摸 */
 }
-#modal-reset, button.primary{
-  background: linear-gradient(90deg,#6b5ef0,#e86aa7);
+#modal-reset, #save-order-btn, button.primary{
+  background: var(--btn-primary-grad);
   color: #fff;
   border: none;
-  padding: 10px 16px; /* 增大触摸区域 */
+  padding: 6px 10px; /* 增大触摸区域 */
   border-radius:8px;
   box-shadow: 0 6px 14px rgba(107,94,240,0.18);
   font-weight: 600;
-  min-height: 44px; /* 最小触摸尺寸 */
-}
-#save-order-btn{
-  background: rgba(255,255,255,0.06);
-  color: var(--accent);
-  border: none;
-  padding: 10px 16px;
-  border-radius:8px;
-  min-height: 44px;
+  min-height: 36px; /* 最小触摸尺寸 */
 }
 
 /* 管理区域的动作栏 */
 .admin-actions{
   max-width:1200px;
-  margin: 18px auto;
+  margin: 18px 0;
   padding: 0 28px 10px 28px;
-  display:flex;
-  justify-content:space-between;
   align-items:center;
+  display: flex;
   gap:12px;
 }
 .admin-actions .muted{
@@ -654,6 +731,18 @@ tr.drag-over{
   
   .form-actions button {
     width: 100%;
+  }
+
+  /* 行内操作按钮在窄屏下换行显示并更便于点击 */
+  .action-group {
+    gap:6px;
+  }
+  
+  .admin-table td button,
+  .admin-table td .action-btn {
+    padding:8px 10px;
+    min-height:40px;
+    font-size:13px;
   }
 }
 

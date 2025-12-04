@@ -88,8 +88,7 @@
 
     if (modalClose) modalClose.addEventListener('click', hideModal);
 
-    // ---------- 其余后台逻辑（拖拽 / 编辑 / 删除 / 状态切换 / 保存排序 / 表单提交） ----------
-    // ...（其余代码保持之前实现，不影响前台时钟显示）
+    // ---------- 其余后台逻辑（拖拽 / 编辑 / 删除 / 状态切换 / 保存排序 / 表单提交 / 获取图标 / 上传图标） ----------
     let dragEl = null;
     svcList.addEventListener('dragstart', (e)=>{
       let tr = e.target.closest('tr[draggable="true"]');
@@ -216,6 +215,64 @@
         }
         return;
       }
+
+      // 获取图标
+      if (e.target.matches('.fetch-icon-btn')) {
+        const id = e.target.dataset.id;
+        if (!id) return;
+        try {
+          const res = await fetch('api.php?action=fetch_icon&id=' + encodeURIComponent(id), { method: 'POST' });
+          const data = await res.json();
+          if (data.ok) {
+            // 刷新页面以显示新图标
+            alert('获取并保存图标成功');
+            location.reload();
+          } else {
+            alert('获取失败: ' + (data.err || '未知错误'));
+          }
+        } catch (err) {
+          alert('请求失败: ' + err);
+        }
+        return;
+      }
+
+      // 上传图标（行内按钮，动态文件输入）
+      if (e.target.matches('.upload-icon-btn')) {
+        const id = e.target.dataset.id;
+        if (!id) return;
+        // 创建临时 file input
+        const inp = document.createElement('input');
+        inp.type = 'file';
+        inp.accept = 'image/*,image/x-icon';
+        inp.style.display = 'none';
+        document.body.appendChild(inp);
+        inp.addEventListener('change', async () => {
+          if (!inp.files || !inp.files[0]) {
+            document.body.removeChild(inp);
+            return;
+          }
+          const fd = new FormData();
+          fd.append('id', id);
+          fd.append('icon', inp.files[0]);
+          try {
+            const res = await fetch('api.php?action=upload_icon', { method: 'POST', body: fd });
+            const data = await res.json();
+            if (data.ok) {
+              alert('上传成功');
+              location.reload();
+            } else {
+              alert('上传失败: ' + (data.err || '未知错误'));
+            }
+          } catch (err) {
+            alert('请求失败: ' + err);
+          } finally {
+            document.body.removeChild(inp);
+          }
+        });
+        // 触发选择
+        inp.click();
+        return;
+      }
     });
 
     if (btnNew) {
@@ -235,8 +292,7 @@
       svcForm.link_v4.value = row.link_v4 || '';
       svcForm.link_lan.value = row.link_lan || '';
       svcForm.enabled.checked = row.enabled == 1;
-      const fileInp = svcForm.querySelector('input[type=file]');
-      if (fileInp) fileInp.value = '';
+      // 图标字段已移出弹窗
     }
     function resetFormFields() {
       if (!svcForm) return;
