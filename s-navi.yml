@@ -1,0 +1,16 @@
+services:
+  s-navi:
+    image: brian9909/s-navi
+    container_name: s-navi
+    ports:
+      - "8180:80"
+    volumes:
+      - ./data:/var/www/html/data
+      - ./uploads:/var/www/html/uploads
+    environment:
+      - NAV_SERVER_NAME=服务器导航
+      - ADMIN_PASSWORD=password
+      - TZ=Asia/Shanghai
+    restart: always
+    
+    command: sh -c "chown -R www-data:www-data /var/www/html/data /var/www/html/uploads && /usr/bin/supervisord -c /etc/supervisord.conf"
