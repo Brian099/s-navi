@@ -76,6 +76,34 @@ usort($services, function($a, $b) {
 $services = array_filter($services, function($s) {
     return ($s['enabled'] ?? 0) == 1;
 });
+
+function getBodyCSS() {
+    $uploadsDir = 'uploads/';
+    
+    if (is_dir($uploadsDir)) {
+        $files = scandir($uploadsDir);
+        $imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
+        
+        foreach ($files as $file) {
+            $fileName = pathinfo($file, PATHINFO_FILENAME);
+            $ext = '.' . strtolower(pathinfo($file, PATHINFO_EXTENSION));
+            
+            // 检查文件名是否为background且是图片格式
+            if (strtolower($fileName) === 'background' && in_array($ext, $imageExtensions)) {
+                $imagePath = $uploadsDir . $file;
+                return "background: url('$imagePath') no-repeat center center fixed; 
+                        background-size: cover;";
+            }
+        }
+    }
+    
+    return "background: linear-gradient(-45deg, #6b1db5, #000000, #9f054e, #8a2be2);
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite;";
+}
+
+// 使用示例
+$bodyCSS = getBodyCSS();
 ?>
 <!doctype html>
 <html lang="zh-CN">
@@ -101,7 +129,7 @@ $services = array_filter($services, function($s) {
     <?php endif; ?>
   </style>
 </head>
-<body>
+<body style="<?php echo $bodyCSS; ?>">
   <div class="bg"></div>
 
   <!-- 右上角单独一行的模式切换 -->
