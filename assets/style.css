@@ -14,6 +14,10 @@ html,body{
   margin:0;
   font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
   color:var(--accent);
+  /* 动态渐变背景 */
+  background: linear-gradient(-45deg, #6b1db5, #000000, #9f054e, #8a2be2);
+  background-size: 200% 200%;
+  animation: gradientBG 15s ease infinite;
   overflow:auto;
   -webkit-tap-highlight-color: transparent; /* 移除移动端点击高亮 */
 }
