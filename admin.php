@@ -133,7 +133,10 @@ usort($services, function($a,$b){
   <title>导航管理</title>
   <link rel="stylesheet" href="assets/style.css">
 </head>
-<body>
+<body style="
+			background: linear-gradient(-45deg, #6b1db5, #000000, #9f054e, #8a2be2);
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite;">
   <header class="topbar admin-top">
     <div class="brand"><h1>导航管理</h1></div>
     <div>
