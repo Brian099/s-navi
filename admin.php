@@ -83,7 +83,10 @@ if (!isset($_SESSION['admin'])) {
         <title>管理登录</title>
         <link rel="stylesheet" href="assets/style.css">
     </head>
-    <body class="admin-login">
+    <body class="admin-login" style="
+			background: linear-gradient(-45deg, #6b1db5, #000000, #9f054e, #8a2be2);
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite;">
       <div class="login-box">
         <h2>后台登录</h2>
         <?php 
