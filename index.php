@@ -193,62 +193,6 @@ $bodyCSS = getBodyCSS();
   </footer>
 
   <script src="assets/app.js"></script>
-  <script>
-    // 服务器名称显示处理
-    document.addEventListener('DOMContentLoaded', function() {
-        const serverNameElement = document.getElementById('server-name');
-        
-        // 从环境变量获取（前端也可通过其他方式获取）
-        const envServerName = '<?=htmlspecialchars($serverName)?>';
-        
-        // 如果有自定义标题，可以在这里处理
-        const pageTitle = '<?=htmlspecialchars($serverName)?> - 导航';
-        document.title = pageTitle;
-        
-        // 点击卡片，根据模式打开对应链接
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', () => {
-                const mode = localStorage.getItem('nav_mode') || 'v6';
-                const url = card.dataset[mode];
-                
-                if (!url) {
-                    alert('此服务尚未填写对应链接');
-                    return;
-                }
-                
-                // 在新窗口打开链接
-                window.open(url, '_blank');
-            });
-            
-            // 添加键盘支持
-            card.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    card.click();
-                }
-            });
-        });
-        
-        // 模式按钮事件（确保app.js中有相关功能）
-        document.querySelectorAll('.mode-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const mode = this.dataset.mode;
-                localStorage.setItem('nav_mode', mode);
-                
-                // 更新按钮状态
-                document.querySelectorAll('.mode-btn').forEach(b => {
-                    b.classList.toggle('active', b.dataset.mode === mode);
-                });
-            });
-        });
-        
-        // 初始设置模式按钮状态
-        const currentMode = localStorage.getItem('nav_mode') || 'v6';
-        document.querySelectorAll('.mode-btn').forEach(btn => {
-            if (btn.dataset.mode === currentMode) {
-                btn.classList.add('active');
-            }
-        });
-    });
-  </script>
+
 </body>
 </html>
